@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Video;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class VideoController extends Controller
+{
+    public function index()
+    {
+        // Récupère les vidéos de l'utilisateur connecté
+        $videos = Video::where('user_id', Auth::id())->latest()->get();
+        return view('video', compact('videos'));
+    }
+
+    public function store(Request $request)
+    {
+        // Validation du fichier vidéo
+        $request->validate([
+            'video' => 'required|file|mimetypes:video/mp4,video/quicktime|max:50000' // 50MB max
+        ]);
+
+        // Stockage du fichier
+        $path = $request->file('video')->store('videos', 'public');
+
+        // Création de l'entrée en base de données
+        Video::create([
+            'user_id' => Auth::id(), // Utilisation de Auth::id() au lieu de auth()->id()
+            'title' => $request->file('video')->getClientOriginalName(),
+            'file_path' => $path
+        ]);
+
+        // Redirection avec message de succès
+        return redirect()->route('videos.index')->with('success', 'Vidéo publiée avec succès!');
+    }
+}
