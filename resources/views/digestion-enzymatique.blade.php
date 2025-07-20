@@ -6,9 +6,9 @@
     <title>Laboratoire Virtuel SVT - Digestion Enzymatique</title>
     <style>
         :root {
-            --primary: #c62828;
-            --primary-light: #ff5f52;
-            --primary-dark: #8e0000;
+            --primary: #667eea;
+            --primary-light: #7c8ff0;
+            --primary-dark: #5a6fd8;
             --secondary: #f5f5f5;
             --text: #333;
             --light: #fff;
@@ -209,11 +209,11 @@
         }
 
         .enzyme-option:hover {
-            background-color: rgba(198, 40, 40, 0.1);
+            background-color: rgba(102, 126, 234, 0.1);
         }
 
         .enzyme-option.active {
-            background-color: rgba(198, 40, 40, 0.2);
+            background-color: rgba(102, 126, 234, 0.2);
             border-left: 4px solid var(--primary);
         }
 
@@ -283,7 +283,7 @@
         }
 
         .btn-outline:hover {
-            background-color: rgba(198, 40, 40, 0.1);
+            background-color: rgba(102, 126, 234, 0.1);
         }
 
         .food-molecule {
@@ -813,7 +813,7 @@
                 }
 
                 // Démarrer l'animation
-                simulationInterval = setInterval(updateSimulation, 100);
+                simulationInterval = setInterval(updateSimulation, 40);
             }
 
             function createMolecule(type) {

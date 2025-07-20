@@ -32,7 +32,8 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Utilisateur enregistré avec succès'], 201);
     }
-public function showLoginForm()
+
+    public function showLoginForm()
     {
         return view('labo');
     }
@@ -66,5 +67,14 @@ public function showLoginForm()
         }
 
         return back()->with('error', 'Email ou mot de passe incorrect.');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect()->route('login')->with('success', 'Vous avez été déconnecté avec succès.');
     }
 }

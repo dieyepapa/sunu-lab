@@ -26,10 +26,10 @@ class HandleLargeUploads
                     ->with('error', $errorMessage);
             }
             
-            // Vérifier la taille du fichier (2MB max - limite serveur actuelle)
-            if ($file->getSize() > 2 * 1024 * 1024) {
+            // Vérifier la taille du fichier (512MB max)
+            if ($file->getSize() > 512 * 1024 * 1024) {
                 return redirect()->back()
-                    ->with('error', 'Le fichier est trop volumineux. Taille maximale : 2MB (limite serveur actuelle). Veuillez réduire la taille de votre vidéo ou contacter l\'administrateur pour augmenter les limites.');
+                    ->with('error', 'Le fichier est trop volumineux. Taille maximale : 512MB (limite serveur actuelle). Veuillez réduire la taille de votre vidéo ou contacter l\'administrateur pour augmenter les limites.');
             }
             
             // Vérifier le type MIME
@@ -50,7 +50,7 @@ class HandleLargeUploads
     {
         switch ($errorCode) {
             case UPLOAD_ERR_INI_SIZE:
-                return 'Le fichier dépasse la limite upload_max_filesize du serveur (actuellement 2MB). Veuillez réduire la taille de votre vidéo.';
+                return 'Le fichier dépasse la limite upload_max_filesize du serveur (actuellement 512MB). Veuillez réduire la taille de votre vidéo.';
             case UPLOAD_ERR_FORM_SIZE:
                 return 'Le fichier dépasse la limite post_max_size du serveur (actuellement 8MB). Veuillez réduire la taille de votre vidéo.';
             case UPLOAD_ERR_PARTIAL:

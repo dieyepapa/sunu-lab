@@ -8,12 +8,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     :root {
-      --primary: #e63946;
-      --secondary: #457b9d;
-      --light: #f1faee;
-      --dark: #1d3557;
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --light: #f7fafc;
+      --dark: #2d3748;
       --accent1: #a8dadc;
-      --accent2: #ff9e00;
+      --accent2: #f093fb;
     }
     
     * {
@@ -39,7 +39,7 @@
     /* Header stylisé */
     .header {
       grid-column: 1 / -1;
-      background: linear-gradient(135deg, var(--primary) 0%, #c1121f 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
       padding: 1rem;
       text-align: center;
@@ -160,7 +160,7 @@
     }
     
     .btn:hover {
-      background: #c1121f;
+      background: var(--secondary);
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
@@ -170,7 +170,7 @@
     }
     
     .btn-secondary:hover {
-      background: #315a7d;
+      background: #5a4a8a;
     }
     
     .speed-control {
@@ -785,7 +785,7 @@
       const context = canvas.getContext('2d');
       
       // Fond de l'étiquette
-      context.fillStyle = 'rgba(230, 57, 70, 0.85)';
+      context.fillStyle = 'rgba(102, 126, 234, 0.85)';
       context.beginPath();
       context.roundRect(10, 10, canvas.width - 20, canvas.height - 20, 20);
       context.fill();

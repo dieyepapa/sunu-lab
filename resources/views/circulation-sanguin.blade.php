@@ -8,11 +8,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     :root {
-      --primary: #e63946;
-      --secondary: #457b9d;
-      --light: #f1faee;
-      --dark: #1d3557;
-      --accent: #ff9e00;
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --light: #f7fafc;
+      --dark: #2d3748;
+      --accent: #f093fb;
     }
     
     * {
@@ -35,7 +35,7 @@
     }
     
     .header {
-      background: linear-gradient(135deg, var(--primary) 0%, #c1121f 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
       padding: 1rem;
       text-align: center;
@@ -78,7 +78,7 @@
     
     .heart-annotation {
       position: absolute;
-      background-color: rgba(230, 57, 70, 0.8);
+      background-color: rgba(102, 126, 234, 0.8);
       color: white;
       padding: 5px 10px;
       border-radius: 20px;
@@ -173,7 +173,7 @@
     }
     
     .btn:hover {
-      background: #c1121f;
+      background: var(--secondary);
       transform: translateY(-2px);
     }
     
@@ -182,7 +182,7 @@
     }
     
     .btn-secondary:hover {
-      background: #315a7d;
+      background: #5a4a8a;
     }
     
     .btn-small {
@@ -260,7 +260,7 @@
     
     .feedback-incorrect {
       background: #ffebee;
-      color: #c62828;
+      color: #667eea;
       border-left: 4px solid #f44336;
     }
     

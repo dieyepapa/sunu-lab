@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use App\Models\QcmQuestion; // Added this import for QcmQuestion
 
 class VideoController extends Controller
 {
@@ -14,33 +16,33 @@ class VideoController extends Controller
     {
         try {
             $request->validate([
-                'video' => 'required|file|mimes:mp4,mov,avi,webm|max:2048' // 2MB max (limite actuelle)
+                'video' => 'required|file|mimes:mp4,mov,avi,webm|max:524288' // 512MB max (nouvelle limite)
             ]);
 
             $file = $request->file('video');
-            
-            // Vérification supplémentaire de la taille
-            if ($file->getSize() > 2 * 1024 * 1024) {
-                return redirect()->back()
-                    ->with('error', 'Le fichier est trop volumineux. Taille maximale : 2MB (limite serveur actuelle)');
+
+            $user = Auth::user();
+            if (!$user) {
+                return redirect()->route('videos.index')->with('error', 'Utilisateur non authentifié.');
             }
 
             $path = $file->store('videos', 'public');
-            
+
             Video::create([
-                'user_id' => Auth::id(),
+                'user_id' => $user->idUser ?? $user->id ?? null,
                 'title' => $file->getClientOriginalName(),
                 'file_path' => $path
             ]);
 
-            return redirect()->route('professeur.dashboard')
+            return redirect()->route('videos.index')
                    ->with('success', 'Vidéo publiée avec succès!');
-                   
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()
                    ->withErrors($e->errors())
                    ->withInput();
         } catch (\Exception $e) {
+            Log::error('Erreur lors de la publication de la vidéo', ['exception' => $e]);
             return redirect()->back()
                    ->with('error', 'Erreur lors de la publication de la vidéo. Veuillez réessayer.');
         }
@@ -48,7 +50,8 @@ class VideoController extends Controller
 
     public function index()
     {
-        $videos = Video::where('user_id', Auth::id())->latest()->get();
+        $user = Auth::user();
+        $videos = Video::where('user_id', $user->idUser)->latest()->get();
         return view('video', compact('videos'));
     }
 
@@ -63,9 +66,17 @@ class VideoController extends Controller
         // Nombre d'élèves actifs (utilisateurs avec status 'eleve')
         $elevesActifs = User::where('status', 'eleve')->count();
         
+        // Nombre de QCM créés par ce professeur
+        $qcmCount = QcmQuestion::where('professeur_id', $user->idUser)->count();
+        
+        // Nombre de simulations disponibles
+        $simulationsCount = 8;
+        
         return response()->json([
             'videos_publiees' => $videosCount,
-            'eleves_actifs' => $elevesActifs
+            'eleves_actifs' => $elevesActifs,
+            'qcm_crees' => $qcmCount,
+            'simulations' => $simulationsCount
         ]);
     }
 }

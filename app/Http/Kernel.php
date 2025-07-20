@@ -33,7 +33,7 @@ class Kernel extends HttpKernel
         ],
     ];
 
-    protected $middlewareAliases = [
+    protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
@@ -46,6 +46,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'handle.large.uploads' => \App\Http\Middleware\HandleLargeUploads::class,
         'upload.error.handler' => \App\Http\Middleware\UploadErrorHandler::class,
+        'status' => \App\Http\Middleware\StatusMiddleware::class,
     ];
     //protected $except = [
     //'api/*'

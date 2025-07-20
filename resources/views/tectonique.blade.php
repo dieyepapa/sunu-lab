@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Orbitron:wght@500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #c62828;
+            --primary: #667eea;
             --secondary: #2196F3;
             --accent: #FF9800;
             --dark: #2c3e50;
@@ -70,7 +70,7 @@
         }
         
         button {
-            background: linear-gradient(145deg, var(--primary), #8e0000);
+            background: linear-gradient(145deg, var(--primary), #5a6fd8);
             color: white;
             border: none;
             padding: 12px 25px;

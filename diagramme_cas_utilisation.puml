@@ -1,0 +1,222 @@
+@startuml Diagramme de Cas d'Utilisation - Laboratoire Virtuel SVT
+
+!theme plain
+skinparam actorStyle awesome
+skinparam usecase {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+    FontColor Black
+}
+
+title Diagramme de Cas d'Utilisation - SUNU-LAB (Laboratoire Virtuel SVT)
+
+' Définition des acteurs
+actor "Visiteur" as V
+actor "Élève" as E
+actor "Professeur" as P
+actor "Administrateur" as A
+actor "Système" as S
+
+' Package pour l'authentification
+package "Authentification" {
+    usecase "Se connecter" as UC1
+    usecase "Se déconnecter" as UC2
+    usecase "S'inscrire" as UC3
+    usecase "Gérer les profils utilisateurs" as UC4
+}
+
+' Package pour la gestion administrative
+package "Gestion Administrative" {
+    usecase "Gérer les établissements" as UC5
+    usecase "Gérer les classes" as UC6
+    usecase "Gérer les utilisateurs" as UC7
+    usecase "Consulter les statistiques" as UC8
+    usecase "Envoyer des notifications" as UC9
+}
+
+' Package pour les simulations
+package "Gestion des Simulations" {
+    usecase "Créer une simulation" as UC10
+    usecase "Modifier une simulation" as UC11
+    usecase "Supprimer une simulation" as UC12
+    usecase "Exécuter une simulation" as UC13
+    usecase "Visualiser les simulations 3D" as UC14
+    usecase "Consulter les résultats" as UC15
+}
+
+' Package pour les QCM
+package "Gestion des QCM" {
+    usecase "Créer un QCM" as UC16
+    usecase "Modifier un QCM" as UC17
+    usecase "Supprimer un QCM" as UC18
+    usecase "Répondre à un QCM" as UC19
+    usecase "Consulter les statistiques QCM" as UC20
+    usecase "Soumettre une réponse" as UC21
+}
+
+' Package pour les vidéos
+package "Gestion des Vidéos" {
+    usecase "Uploader une vidéo" as UC22
+    usecase "Visualiser les vidéos" as UC23
+    usecase "Supprimer une vidéo" as UC24
+    usecase "Consulter les statistiques vidéo" as UC25
+}
+
+' Package pour les expériences virtuelles
+package "Expériences Virtuelles" {
+    usecase "Accéder au laboratoire virtuel" as UC26
+    usecase "Expérimenter la mitose" as UC27
+    usecase "Expérimenter la fécondation" as UC28
+    usecase "Expérimenter la circulation sanguine" as UC29
+    usecase "Expérimenter les séismes" as UC30
+    usecase "Expérimenter le volcanisme" as UC31
+    usecase "Expérimenter les chaînes alimentaires" as UC32
+    usecase "Expérimenter l'hérédité" as UC33
+    usecase "Expérimenter la photosynthèse" as UC34
+    usecase "Expérimenter la tectonique" as UC35
+    usecase "Expérimenter la transmission nerveuse" as UC36
+    usecase "Expérimenter la digestion enzymatique" as UC37
+}
+
+' Package pour la navigation
+package "Navigation et Interface" {
+    usecase "Accéder à l'accueil" as UC38
+    usecase "Consulter les informations" as UC39
+    usecase "Naviguer dans l'interface" as UC40
+}
+
+' Relations pour le Visiteur
+V --> UC1
+V --> UC3
+V --> UC38
+V --> UC39
+
+' Relations pour l'Élève
+E --> UC1
+E --> UC2
+E --> UC13
+E --> UC14
+E --> UC19
+E --> UC21
+E --> UC23
+E --> UC26
+E --> UC27
+E --> UC28
+E --> UC29
+E --> UC30
+E --> UC31
+E --> UC32
+E --> UC33
+E --> UC34
+E --> UC35
+E --> UC36
+E --> UC37
+E --> UC38
+E --> UC39
+E --> UC40
+
+' Relations pour le Professeur
+P --> UC1
+P --> UC2
+P --> UC10
+P --> UC11
+P --> UC12
+P --> UC13
+P --> UC14
+P --> UC15
+P --> UC16
+P --> UC17
+P --> UC18
+P --> UC20
+P --> UC22
+P --> UC23
+P --> UC24
+P --> UC25
+P --> UC26
+P --> UC27
+P --> UC28
+P --> UC29
+P --> UC30
+P --> UC31
+P --> UC32
+P --> UC33
+P --> UC34
+P --> UC35
+P --> UC36
+P --> UC37
+P --> UC38
+P --> UC39
+P --> UC40
+
+' Relations pour l'Administrateur
+A --> UC1
+A --> UC2
+A --> UC4
+A --> UC5
+A --> UC6
+A --> UC7
+A --> UC8
+A --> UC9
+A --> UC10
+A --> UC11
+A --> UC12
+A --> UC13
+A --> UC14
+A --> UC15
+A --> UC16
+A --> UC17
+A --> UC18
+A --> UC20
+A --> UC22
+A --> UC23
+A --> UC24
+A --> UC25
+A --> UC26
+A --> UC27
+A --> UC28
+A --> UC29
+A --> UC30
+A --> UC31
+A --> UC32
+A --> UC33
+A --> UC34
+A --> UC35
+A --> UC36
+A --> UC37
+A --> UC38
+A --> UC39
+A --> UC40
+
+' Relations d'inclusion et d'extension
+UC13 ..> UC14 : <<include>>
+UC19 ..> UC21 : <<include>>
+UC26 ..> UC27 : <<extend>>
+UC26 ..> UC28 : <<extend>>
+UC26 ..> UC29 : <<extend>>
+UC26 ..> UC30 : <<extend>>
+UC26 ..> UC31 : <<extend>>
+UC26 ..> UC32 : <<extend>>
+UC26 ..> UC33 : <<extend>>
+UC26 ..> UC34 : <<extend>>
+UC26 ..> UC35 : <<extend>>
+UC26 ..> UC36 : <<extend>>
+UC26 ..> UC37 : <<extend>>
+
+' Notes explicatives
+note right of UC1 : Authentification par email/mot de passe
+note right of UC13 : Exécution des simulations 3D avec Three.js
+note right of UC14 : Visualisation interactive en 3D
+note right of UC26 : Accès au laboratoire virtuel principal
+note right of UC27 : Simulation de la division cellulaire
+note right of UC28 : Simulation de la fécondation ovule-spermatozoïde
+note right of UC29 : Simulation de la circulation sanguine
+note right of UC30 : Simulation des ondes sismiques
+note right of UC31 : Simulation des éruptions volcaniques
+note right of UC32 : Simulation des interactions alimentaires
+note right of UC33 : Simulation de la transmission génétique
+note right of UC34 : Simulation de la photosynthèse
+note right of UC35 : Simulation de la tectonique des plaques
+note right of UC36 : Simulation de la transmission nerveuse
+note right of UC37 : Simulation de la digestion enzymatique
+
+@enduml 

@@ -5,20 +5,20 @@
   <title>Mon Espace Élève - Simulations Scientifiques</title>
   <style>
     :root {
-      --primary: #c62828;
-      --primary-light: #ff5f52;
-      --primary-dark: #8e0000;
-      --secondary: #2e7d32;
-      --secondary-light: #60ad5e;
-      --dark: #263238;
-      --light: #f5f5f5;
-      --accent: #ffab00;
+      --primary: #667eea;
+      --primary-light: #7c8ff0;
+      --primary-dark: #5a6fd8;
+      --secondary: #764ba2;
+      --secondary-light: #8a6bb1;
+      --dark: #2d3748;
+      --light: #f7fafc;
+      --accent: #f093fb;
     }
 
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #e0e0e0 100%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: #333;
     }
 
@@ -26,7 +26,7 @@
       width: 250px;
       height: 100vh;
       position: fixed;
-      background: linear-gradient(to bottom, var(--dark), #000a12);
+      background: linear-gradient(to bottom, var(--dark), #1a202c);
       color: white;
       padding-top: 30px;
       box-shadow: 2px 0 20px rgba(0,0,0,0.2);
@@ -69,7 +69,7 @@
     }
 
     .sidebar a:hover {
-      background: rgba(198, 40, 40, 0.2);
+      background: rgba(102, 126, 234, 0.2);
       transform: translateX(5px);
     }
 
@@ -79,12 +79,12 @@
     }
 
     .welcome-banner {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
       padding: 30px;
       border-radius: 15px;
       margin-bottom: 30px;
-      box-shadow: 0 10px 30px rgba(198, 40, 40, 0.3);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
       position: relative;
       overflow: hidden;
     }
@@ -131,7 +131,7 @@
 
     .card:hover {
       transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 15px 40px rgba(198, 40, 40, 0.2);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
     }
 
     .card-content {
@@ -148,7 +148,7 @@
       font-size: 3.5rem;
       margin-bottom: 15px;
       color: var(--primary);
-      text-shadow: 0 2px 5px rgba(198, 40, 40, 0.2);
+      text-shadow: 0 2px 5px rgba(102, 126, 234, 0.2);
     }
 
     .card h3 {
@@ -176,7 +176,7 @@
       border: none;
       cursor: pointer;
       font-weight: 600;
-      box-shadow: 0 4px 10px rgba(198, 40, 40, 0.3);
+      box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
       width: fit-content;
     }
 
@@ -186,9 +186,9 @@
     }
 
     .btn-launch:hover {
-      background: var(--primary-dark);
+      background: var(--secondary);
       transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(198, 40, 40, 0.4);
+      box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
     }
 
     .btn-launch:hover i {
@@ -320,13 +320,13 @@
     align-items: center;
     justify-content: center;
     padding: 12px 20px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white !important;
     border-radius: 8px;
     font-weight: bold;
     font-size: 1.1rem;
     border: 2px solid white;
-    box-shadow: 0 4px 15px rgba(198, 40, 40, 0.5);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
     text-shadow: 0 1px 2px rgba(0,0,0,0.3);
     margin-top: auto; /* Pousse le bouton vers le bas */
     margin-bottom: 0;
@@ -370,6 +370,8 @@
 }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <script src="{{ asset('js/notifications-eleve.js') }}" defer></script>
 </head>
 <body>
   
@@ -378,14 +380,43 @@
     <h2><i class="fas fa-user-graduate"></i> Mon Espace</h2>
     <a href="#"><i class="fas fa-play-circle"></i> Regarger Vidéos</a>
     
-    <a href="#" id="notification-link"><i class="fas fa-bell"></i> Notifications</a>
-    <a href="{{ route('logout') }}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+    <a href="#" id="notification-link"><i class="fas fa-bell"></i>Envoyer Notifications</a>
+    
+    <!-- Bouton de déconnexion -->
+    <form method="POST" action="{{ route('logout') }}" style="margin-top: auto; padding: 0 20px 20px 20px;">
+      @csrf
+      <button type="submit" style="
+        width: 100%;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+      ">
+        <i class="fas fa-sign-out-alt"></i>
+        Déconnexion
+      </button>
+    </form>
   </div>
 
   <div class="content">
     <div class="welcome-banner">
        <h1>Bienvenue dans l'espace Eleve</h1>
       <p>Explorez les mystères du corps humain à travers nos simulations interactives en haute définition</p>
+    </div>
+
+    <!-- Champ de recherche -->
+    <div style="margin-bottom: 25px; text-align: right;">
+      <input id="search-simulation" type="text" placeholder="Rechercher une simulation..." style="padding: 10px 18px; border-radius: 25px; border: 1px solid #ccc; font-size: 1rem; min-width: 260px; outline: none; box-shadow: 0 2px 8px rgba(102,126,234,0.05);">
     </div>
 
     <div class="card-grid">
@@ -510,33 +541,24 @@
   </script>
 
   <script>
-  document.getElementById('notification-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    
-    // Afficher un message de confirmation
-    if (confirm('Voulez-vous recevoir une notification par email ?')) {
-      // Envoyer la requête au serveur
-      fetch('/send-notification-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': '{{ csrf_token() }}' // Pour Laravel
-        },
-        body: JSON.stringify({
-          email: 'pvpvdieye10@gmail.com', // Remplacez par l'email souhaité
-          message: 'Une simulation a été lancée, veuillez vous connecter à l\'application'
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        alert('Notification envoyée avec succès !');
-      })
-      .catch(error => {
-        console.error('Erreur:', error);
-        alert('Erreur lors de l\'envoi de la notification');
+    // Filtrage des simulations
+    document.getElementById('search-simulation').addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      document.querySelectorAll('.card').forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const desc = card.querySelector('p').textContent.toLowerCase();
+        if(title.includes(query) || desc.includes(query)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
       });
-    }
-  });
-</script>
+    });
+  </script>
+
+  <script>
+    // Le script de notification est maintenant géré par notifications-eleve.js
+    // L'ancien script a été remplacé par un système plus moderne et robuste
+  </script>
 </body>
 </html>

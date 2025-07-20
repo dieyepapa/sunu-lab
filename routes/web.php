@@ -39,10 +39,6 @@ Route::post('/register', [UserController::class, 'register']);
 Route::get('/etablissements', [EtablissementController::class, 'index']);
 Route::post('/etablissements', [EtablissementController::class, 'store']);
 
-// ✅ Classes
-Route::get('/classes', [ClasseController::class, 'index']);
-Route::post('/classes', [ClasseController::class, 'store']);
-
 // ✅ Professeurs
 Route::get('/professeurs', [ProfesseurController::class, 'index']);
 Route::post('/professeurs', [ProfesseurController::class, 'store']);
@@ -56,19 +52,27 @@ Route::get('/eleve', [EleveController::class, 'dashboard'])->name('eleve.dashboa
 Route::get('/dashboard/eleve', [EleveController::class, 'dashboard'])->middleware('auth');
 
 // ✅ Simulations
-Route::get('/simulations', [SimulationController::class, 'index']);
-Route::post('/simulations', [SimulationController::class, 'store']);
+Route::resource('simulations', SimulationController::class)->middleware('auth');
+Route::get('/simulations/{simulation}/execute', [SimulationController::class, 'execute'])->name('simulations.execute')->middleware('auth');
+Route::get('/simulations/threejs/{type?}', [SimulationController::class, 'executeThreeJS'])->name('simulations.threejs')->middleware('auth');
 
-Route::get('/simulations/{id}', [SimulationController::class, 'show'])->middleware('auth');
-Route::put('/simulations/{id}', [SimulationController::class, 'update'])->middleware('auth');
-Route::delete('/simulations/{id}', [SimulationController::class, 'destroy'])->middleware('auth');
-Route::get('/simulation/{id}', [SimulationController::class, 'show'])->name('simulation.show')->middleware('auth');
 Route::get('/simulation/circulation-sanguine', [SimulationController::class, 'circulation'])->name('simulation.circulation')->middleware('auth');
 Route::get('/digestion-enzymatique', [SimulationController::class, 'digestionEnzymatique'])->name('simulation.digestion')->middleware('auth');
 Route::get('/cycle-fecondation', [SimulationController::class, 'fecondation'])->name('simulation.fecondation')->middleware('auth');
 
+// Routes de notification
 Route::get('/envoyer-notification', [NotificationController::class, 'envoyer'])->name('envoyer.notification')->middleware('auth');
 Route::post('/send-notification-email', [NotificationController::class, 'envoyer'])->middleware('auth');
+Route::get('/notifier-simulation', [NotificationController::class, 'notifier'])->name('notifier.simulation')->middleware('auth');
+Route::post('/notifier-simulation-ajax', [NotificationController::class, 'notifierSimulation'])->name('notifier.simulation.ajax')->middleware('auth');
+Route::post('/notifier-eleve-ajax', [NotificationController::class, 'notifierEleve'])->name('notifier.eleve.ajax')->middleware('auth');
+Route::get('/test-notification', function () {
+    return view('test-notification');
+})->name('test.notification')->middleware('auth');
+
+Route::get('/eleve-new', function () {
+    return view('eleve-new');
+})->name('eleve.new')->middleware('auth');
 
 Route::get('/register-user', [UserController::class, 'register'])->name('register.user');
 Route::post('/register-user', [UserController::class, 'register'])->name('register.user');
@@ -81,7 +85,7 @@ Route::post('/admin/users/store', [UserController::class, 'store'])->name('users
 Route::get('/videos', [VideoController::class, 'index'])->name('videos.index')->middleware('auth');
 
 // Route pour le traitement de l'upload (depuis votre formulaire)
-Route::post('/videos', [VideoController::class, 'store'])->name('videos.store')->middleware(['auth', 'handle.large.uploads', 'upload.error.handler']);
+Route::post('/videos', [VideoController::class, 'store'])->name('videos.store')->middleware('auth');
 
 // Route pour obtenir les statistiques
 Route::get('/videos/stats', [VideoController::class, 'getStats'])->name('videos.stats')->middleware('auth');
@@ -115,21 +119,16 @@ Route::post('/labo', [AuthController::class, 'login']);
 
 Route::get('/eleve', function () {
     return view('eleve');
-})->middleware('auth')->name('eleve.dashboard');
+})->middleware(['auth', \App\Http\Middleware\StatusMiddleware::class.':eleve'])->name('eleve.dashboard');
 
 // Dashboard professeur
 //Route::get('/professeur', function () {
     //return view('professeur');
 //})->middleware('auth');
 
-Route::get('/professeur', function () {
-    return view('professeur'); // ou ton vrai dashboard
-})->middleware('auth')->name('professeur.dashboard');
+Route::get('/professeur', [ProfesseurController::class, 'dashboard'])->middleware(['auth', \App\Http\Middleware\StatusMiddleware::class.':professeur'])->name('professeur.dashboard');
 
-Route::get('/logout', function () {
-    Auth::logout(); // Déconnecte l'utilisateur
-    return redirect('/labo'); // Redirige vers la page de connexion
-})->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/virtuel-lab', function () {
     return view('virtuel-lab');
@@ -189,7 +188,7 @@ Route::get('/formulaire-inscription', function () {
 
 
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\StatusMiddleware::class.':admin'])->group(function () {
     // Route pour le dashboard admin
     Route::get('/dashboard', function () {
         return view('admin-dashboard');

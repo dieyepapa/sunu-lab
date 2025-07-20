@@ -1,87 +1,109 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\simulation;
-use App\Models\Chapitre;
 
+use App\Models\Simulation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class simulationController extends Controller
+class SimulationController extends Controller
 {
-    public function store(Request $request) {
-    $request->validate([
-        'titre' => 'required',
-        'description' => 'required',
-        'chapitre' => 'required',
-        'date' => 'required|date',
-        'type_simulation' => 'required|in:HTML5,UNITY,THREEJS',
-        'contexte' => 'required|in:classe,maison',
-        'professeur_id' => 'required|exists:professeurs,id',
-        'classe_id' => 'required|exists:classes,id',
-    ]);
-
-    $simulation = Simulation::create($request->all());
-
-    if ($simulation->contexte === 'maison') {
-        // 💡 ici on ajoutera l'envoi de notification + lien meet plus tard
-        $simulation->notification_envoyee = true;
-        $simulation->save();
+    public function index()
+    {
+        $simulations = Simulation::where('professeur_id', Auth::id())->get();
+        return view('simulations.index', compact('simulations'));
     }
 
-    return $simulation;
-}
-// Afficher une simulation
-    public function show($id) {
-        $simulation = Simulation::findOrFail($id);
-        return view('simulation', compact('simulation'));
-    } 
- 
-    // Mettre à jour une simulation
-    public function update(Request $request, $id)
+    public function create()
     {
-        $simulation = Simulation::find($id);
+        return view('simulations.create');
+    }
 
-        if (!$simulation) {
-            return response()->json(['message' => 'Simulation non trouvée'], 404);
-        }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'type' => 'required|string|in:biologie,geologie,ecologie,genetique',
+            'difficulte' => 'required|string|in:facile,moyen,difficile',
+            'instructions' => 'required|string',
+        ]);
+
+        $simulation = Simulation::create([
+            'titre' => $request->titre,
+            'description' => $request->description,
+            'type' => $request->type,
+            'difficulte' => $request->difficulte,
+            'instructions' => $request->instructions,
+            'professeur_id' => Auth::id(),
+            'statut' => 'active'
+        ]);
+
+        return redirect()->route('simulations.index')->with('success', 'Simulation créée avec succès!');
+    }
+
+    public function show(Simulation $simulation)
+    {
+        return view('simulations.show', compact('simulation'));
+    }
+
+    public function edit(Simulation $simulation)
+    {
+        return view('simulations.edit', compact('simulation'));
+    }
+
+    public function update(Request $request, Simulation $simulation)
+    {
+        $request->validate([
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'type' => 'required|string|in:biologie,geologie,ecologie,genetique',
+            'difficulte' => 'required|string|in:facile,moyen,difficile',
+            'instructions' => 'required|string',
+        ]);
 
         $simulation->update($request->all());
 
-        return response()->json([
-            'message' => 'Simulation mise à jour avec succès',
-            'data' => $simulation
-        ]);
+        return redirect()->route('simulations.index')->with('success', 'Simulation mise à jour avec succès!');
     }
 
-    // Supprimer une simulation
-    public function destroy($id)
+    public function destroy(Simulation $simulation)
     {
-        $simulation = Simulation::find($id);
-
-        if (!$simulation) {
-            return response()->json(['message' => 'Simulation non trouvée'], 404);
-        }
-
         $simulation->delete();
-
-        return response()->json(['message' => 'Simulation supprimée avec succès']);
+        return redirect()->route('simulations.index')->with('success', 'Simulation supprimée avec succès!');
     }
 
-    public function circulation()
+    public function execute(Simulation $simulation)
     {
-    return view('simulation', [
-        'title' => 'Circulation sanguine',
-        'simulationType' => 'circulation'
-      ]);
+        return view('simulations.execute', compact('simulation'));
     }
 
+    public function executeThreeJS($type = 'default')
+    {
+        return view('simulations.threejs', compact('type'));
+    }
+
+    /**
+     * Simulation de digestion enzymatique
+     */
     public function digestionEnzymatique()
     {
-       return view('digestion-enzymatique');
+        return view('digestion-enzymatique');
     }
 
-     public function fecondation()
+    /**
+     * Simulation de circulation sanguine
+     */
+    public function circulation()
     {
-       return view('cycle-fecondation');
+        return view('circulation-sanguin');
+    }
+
+    /**
+     * Simulation de cycle de fécondation
+     */
+    public function fecondation()
+    {
+        return view('cycle-fecondation');
     }
 }

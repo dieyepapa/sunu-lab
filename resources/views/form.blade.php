@@ -20,7 +20,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            color: #c62828;
+            color: #667eea;
             text-align: center;
             margin-bottom: 30px;
         }
@@ -44,7 +44,7 @@
             box-sizing: border-box;
         }
         .btn {
-            background-color: #c62828;
+            background-color: #667eea;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -65,7 +65,7 @@
             background-color: #5a6268;
         }
         .error {
-            color: #c62828;
+            color: #667eea;
             font-size: 14px;
             margin-top: 5px;
         }

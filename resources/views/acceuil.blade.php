@@ -6,14 +6,14 @@
   <title>LaboVirtuel SVT 3ème | Découvrez la science comme jamais</title>
   <style>
     :root {
-      --primary: #c62828;
-      --primary-light: #ff5f52;
-      --primary-dark: #8e0000;
-      --secondary: #1565c0;
-      --secondary-light: #5e92f3;
-      --dark: #263238;
-      --light: #f5f5f5;
-      --accent: #ffab00;
+      --primary: #667eea;
+      --primary-light: #7c8ff0;
+      --primary-dark: #5a6fd8;
+      --secondary: #764ba2;
+      --secondary-light: #8a6bb1;
+      --dark: #2d3748;
+      --light: #f7fafc;
+      --accent: #f093fb;
     }
 
     /* Reset et base */
@@ -56,7 +56,7 @@
     .navbar.scrolled {
       padding: 10px 5%;
       background: rgba(255, 255, 255, 0.98);
-      box-shadow: 0 5px 30px rgba(198, 40, 40, 0.2);
+      box-shadow: 0 5px 30px rgba(102, 126, 234, 0.2);
     }
 
     .logo {
@@ -128,9 +128,9 @@
     }
 
     .btn-primary:hover {
-      background: var(--primary-dark);
+      background: var(--secondary);
       transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(198, 40, 40, 0.3);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
     }
 
     .btn-outline {
@@ -149,7 +149,7 @@
     .hero {
       height: 100vh;
       min-height: 800px;
-      background: linear-gradient(135deg, rgba(198, 40, 40, 0.9), rgba(142, 0, 0, 0.9)), 
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)), 
                   url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
       display: flex;
       align-items: center;
@@ -252,7 +252,7 @@
 
     .feature-card:hover {
       transform: translateY(-10px);
-      box-shadow: 0 15px 40px rgba(198, 40, 40, 0.1);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.1);
       border-bottom-color: var(--primary);
     }
 
@@ -296,7 +296,7 @@
 
     .simulation-card:hover {
       transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 15px 40px rgba(198, 40, 40, 0.2);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
     }
 
     .simulation-image {
@@ -313,7 +313,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to bottom, rgba(198, 40, 40, 0.2), rgba(198, 40, 40, 0.5));
+      background: linear-gradient(to bottom, rgba(102, 126, 234, 0.2), rgba(102, 126, 234, 0.5));
       opacity: 0;
       transition: opacity 0.3s;
     }
@@ -372,7 +372,7 @@
       top: 20px;
       left: 30px;
       font-size: 5rem;
-      color: rgba(198, 40, 40, 0.1);
+      color: rgba(102, 126, 234, 0.1);
       font-family: Georgia, serif;
       line-height: 1;
     }

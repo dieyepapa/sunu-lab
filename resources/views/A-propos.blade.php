@@ -6,9 +6,9 @@
   <title>À propos | SUNU-LAB - Laboratoire Virtuel SVT 3ème</title>
   <style>
     :root {
-      --primary: #c62828;
-      --primary-light: #ff5f52;
-      --primary-dark: #8e0000;
+      --primary: #667eea;
+      --primary-light: #7c8ff0;
+      --primary-dark: #5a6fd8;
       --dark: #263238;
       --light: #f5f5f5;
     }
@@ -99,7 +99,7 @@
 
     /* Main Content */
     .about-header {
-      background: linear-gradient(135deg, rgba(198, 40, 40, 0.9), rgba(142, 0, 0, 0.9));
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(142, 0, 0, 0.9));
       color: white;
       text-align: center;
       padding: 150px 10% 100px;
